@@ -44,35 +44,57 @@ Plot the performance plot
 Evaluate the model with the testing data.
 
 ## PROGRAM
-### Name:
-### Register Number:
+### Name:K Nagul
+### Register Number: 212222230089
 ```python
 class NeuralNet(nn.Module):
-    def __init__(self):
+  def __init__(self):
         super().__init__()
-        #Include your code here
+        self.history = {'loss': []}
+        self.linear1 = nn.Linear(1, 12)
+        self.linear2 = nn.Linear(12, 10)
+        self.linear3 = nn.Linear(10, 1)
+        self.relu = nn.ReLU()
+
+  def forward(self,x):
+    x = self.relu(self.linear1(x))
+    x = self.relu(self.linear2(x))
+    x = self.linear3(x)
+    return x
 
 
 
 # Initialize the Model, Loss Function, and Optimizer
+ai_brain = NeuralNet()
+criterion = nn.MSELoss()
+optimizer = optim.RMSprop(ai_brain.parameters(), lr=0.001)
 
 
 
 def train_model(ai_brain, X_train, y_train, criterion, optimizer, epochs=2000):
-    #Include your code here
+    for epoch in range(epochs):
+    optimizer.zero_grad()
+    loss = criterion(ai_brain(X_train), y_train)
+    loss.backward()
+    optimizer.step()
+
+    ai_brain.history['loss'].append(loss.item())
+    if epoch % 200 == 0:
+        print(f'Epoch [{epoch}/{epochs}], Loss: {loss.item():.6f}')
+
 
 
 
 ```
 ## Dataset Information
+![image](https://github.com/user-attachments/assets/38018439-1334-4197-b7d9-05928aa636c6)
 
-Include screenshot of the dataset
 
 ## OUTPUT
 
 ### Training Loss Vs Iteration Plot
+![image](https://github.com/user-attachments/assets/1e2728cf-5e55-4c47-a8b7-c8ddebf7671c)
 
-Include your plot here
 
 ### New Sample Data Prediction
 
